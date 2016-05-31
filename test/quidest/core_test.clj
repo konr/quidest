@@ -3,6 +3,20 @@
             [quidest.core :refer :all]
             [schema.core :as s]))
 
+(def test-db {:stems
+              {"am" {:meaning "to love"
+                     :part-of-speech :verb}}
+              :endings
+              {"ari" {:part-of-speech :verb
+                      :declination :first-declination
+                      :mood :infinitive
+                      :voice :passive}
+               "are" {:part-of-speech :verb
+                      :declination :first-declination
+                      :mood :infinitive
+                      :voice :active}}})
+
+
 (s/with-fn-validation
   (facts "on split word"
          (split-word "foo")
@@ -12,21 +26,8 @@
                    {:stem ""  :ending "foo"}]
                   :in-any-order))
 
-  (def db {:stems
-           {"am" {:meaning "to love"
-                  :part-of-speech :verb}}
-           :endings
-           {"ari" {:part-of-speech :verb
-                   :declination :first-declination
-                   :mood :infinitive
-                   :voice :passive}
-            "are" {:part-of-speech :verb
-                   :declination :first-declination
-                   :mood :infinitive
-                   :voice :active}}})
-
   (facts "on lookup-meaning"
-         (lookup-meaning db {:stem "am" :ending "are"})
+         (lookup-meaning test-db {:stem "am" :ending "are"})
          => {:meaning "to love"
              :part-of-speech :verb
              :declination :first-declination
@@ -34,17 +35,17 @@
              :voice :active})
 
   (facts "on parse-word"
-         (parse-word db "amare")
+         (parse-word test-db "amare")
          => [{:meaning "to love"
               :part-of-speech :verb
               :declination :first-declination
               :mood :infinitive
               :voice :active}]
-         (parse-word db "amari")
+         (parse-word test-db "amari")
          => [{:meaning "to love"
               :part-of-speech :verb
               :declination :first-declination
               :mood :infinitive
               :voice :passive}]
-         (parse-word db "amo")
+         (parse-word test-db "amo")
          => []))
