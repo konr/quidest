@@ -6,6 +6,6 @@
                 :ending word})
 
 (def lookup-result {s/Keyword s/Any})
-(def db {:stems {s/Str lookup-result}
-         :endings {s/Str lookup-result}})
+(def db {:stems {s/Str [lookup-result]}
+         :endings {s/Str [lookup-result]}})
 
